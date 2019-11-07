@@ -31,7 +31,7 @@
         <TextView
                 tools:text="Chuck Norris qualified with a top speed of 324 mph at the Daytona 500, without a car."
                 android:layout_width="0dp"
-                android:layout_height="0dp"
+                android:layout_height="wrap_content"
                 android:id="@+id/item_list_joke_value"
                 app:layout_constraintStart_toEndOf="@+id/item_list_joke_number"
                 app:layout_constraintTop_toTopOf="parent"
@@ -42,7 +42,7 @@
                 android:layout_marginTop="8dp"
                 android:layout_marginBottom="8dp"/>
         <TextView
-                tools:text="We're on Top"
+                android:text="We're on Top"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:id="@+id/item_list_joke_top_text"

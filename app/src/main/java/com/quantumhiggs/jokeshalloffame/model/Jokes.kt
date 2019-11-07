@@ -8,5 +8,6 @@ data class Jokes(
 data class Value(
     val categories: List<Any>,
     val id: Int,
-    val joke: String
+    val joke: String,
+    var vote: Int = 0
 )
