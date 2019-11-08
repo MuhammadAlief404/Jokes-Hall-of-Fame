@@ -1,13 +1,16 @@
 package com.quantumhiggs.jokeshalloffame.ui
 
 import android.os.Bundle
+import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.quantumhiggs.jokeshalloffame.R
+import com.quantumhiggs.jokeshalloffame.model.Jokes
 import com.quantumhiggs.jokeshalloffame.model.Value
 import kotlinx.android.synthetic.main.activity_main.*
+import java.util.*
 
 class ListJokesActivity : AppCompatActivity() {
 
@@ -19,7 +22,7 @@ class ListJokesActivity : AppCompatActivity() {
      * TODO
      * 1. Tampilin hasil dari Btn Add
      * 2. Hilangin hasil dari button add ketika refresh
-     * 3. Pindah2 in posisi item di RecView*/
+     * 3. Perbaikin Swap Position item di RecView*/
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -36,9 +39,9 @@ class ListJokesActivity : AppCompatActivity() {
             } else {
                 main_fab.hide()
             }
-            viewModel.setJoke().observe(this, Observer { t ->
-                t.let { showData(it) }
-            })
+//            viewModel.setJoke().observe(this, Observer { t ->
+//                t.get(0).value.let { showData(it) }
+//            })
         }
 
         main_swipe_refresh.setOnRefreshListener {
@@ -56,6 +59,11 @@ class ListJokesActivity : AppCompatActivity() {
         data.sortedBy {
             it.vote
         }
-        main_rv_jokes.adapter = ListJokesAdapter(data)
+        main_rv_jokes.adapter = ListJokesAdapter(data) {
+            it.vote++
+            viewModel.setListJokes().observe(this, Observer { t ->
+                t.value.let { showData(it) }
+            })
+        }
     }
 }
