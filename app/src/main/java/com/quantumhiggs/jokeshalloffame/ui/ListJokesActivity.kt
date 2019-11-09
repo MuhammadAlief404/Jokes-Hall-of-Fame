@@ -1,28 +1,18 @@
 package com.quantumhiggs.jokeshalloffame.ui
 
 import android.os.Bundle
-import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.quantumhiggs.jokeshalloffame.R
-import com.quantumhiggs.jokeshalloffame.model.Jokes
 import com.quantumhiggs.jokeshalloffame.model.Value
 import kotlinx.android.synthetic.main.activity_main.*
-import java.util.*
 
 class ListJokesActivity : AppCompatActivity() {
 
     private lateinit var viewModel: ListJokesViewModel
-
     private var counter = 1
-
-    /**
-     * TODO
-     * 1. Tampilin hasil dari Btn Add
-     * 2. Hilangin hasil dari button add ketika refresh
-     * 3. Perbaikin Swap Position item di RecView*/
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -39,31 +29,61 @@ class ListJokesActivity : AppCompatActivity() {
             } else {
                 main_fab.hide()
             }
-//            viewModel.setJoke().observe(this, Observer { t ->
-//                t.get(0).value.let { showData(it) }
-//            })
+            val tempList = ArrayList<Value>()
+            val temp = viewModel.setListJokes()
+            temp.value?.value?.let { it1 ->
+                tempList.addAll(it1)
+            }
+            viewModel.setJoke().observe(this, Observer { t ->
+                tempList.add(t.value[t.value.size - 1])
+                showData(tempList)
+            })
         }
 
         main_swipe_refresh.setOnRefreshListener {
             counter = 1
             main_fab.show()
+            val arr = ArrayList<Value>()
+            for (data in viewModel.setListJokes().value!!.value) {
+                data.vote = 0
+                arr.add(data)
+            }
+            showData(arr)
             main_swipe_refresh.isRefreshing = false
         }
 
-        viewModel.setListJokes().observe(this, Observer { t ->
-            t.value.let { showData(it) }
-        })
+        observeListJokes()
     }
 
-    fun showData(data: List<Value>) {
-        data.sortedBy {
-            it.vote
+    private fun showData(data: List<Value>) {
+        if (data.isNotEmpty()) {
+            val sortData = getSortData(data)
+            main_rv_jokes.adapter = ListJokesAdapter(sortData) {
+                it.vote++
+                observeListJokes()
+            }
         }
-        main_rv_jokes.adapter = ListJokesAdapter(data) {
-            it.vote++
+    }
+
+    private fun observeListJokes() {
+        if (counter < 2) {
             viewModel.setListJokes().observe(this, Observer { t ->
-                t.value.let { showData(it) }
+                showData(t.value)
+            })
+        } else {
+            val tempList = ArrayList<Value>()
+            val temp = viewModel.setListJokes()
+            temp.value?.value?.let { it1 ->
+                tempList.addAll(it1)
+            }
+            viewModel.getOneJoke().observe(this, Observer { t ->
+                tempList.add(t.value[t.value.size - 1])
+                showData(tempList)
             })
         }
+    }
+
+    private fun getSortData(data: List<Value>): List<Value> {
+        return data.sortedWith(compareByDescending { it.vote })
     }
 }

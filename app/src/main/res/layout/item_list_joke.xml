@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.cardview.widget.CardView
-        xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
         xmlns:tools="http://schemas.android.com/tools"
         android:orientation="vertical"
         android:layout_width="match_parent"
@@ -15,7 +16,7 @@
 
         <TextView
                 android:layout_width="wrap_content"
-                android:layout_height="match_parent"
+                android:layout_height="0dp"
                 tools:text="10"
                 android:textAppearance="@style/TextAppearance.AppCompat.Large"
                 android:textAlignment="center"
@@ -23,10 +24,10 @@
                 app:layout_constraintStart_toStartOf="parent"
                 android:layout_marginStart="8dp"
                 app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                android:layout_marginTop="8dp"
                 android:layout_marginBottom="8dp"
-                android:id="@+id/item_list_joke_number"/>
+                android:id="@+id/item_list_joke_number"
+                android:layout_marginTop="8dp"
+                app:layout_constraintTop_toTopOf="parent"/>
 
         <TextView
                 tools:text="Chuck Norris qualified with a top speed of 324 mph at the Daytona 500, without a car."
@@ -41,8 +42,9 @@
                 android:layout_marginEnd="8dp"
                 android:layout_marginTop="8dp"
                 android:layout_marginBottom="8dp"/>
+
         <TextView
-                android:text="We're on Top"
+                android:text="@string/we_re_on_top"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:id="@+id/item_list_joke_top_text"

@@ -9,23 +9,21 @@ import java.util.concurrent.TimeUnit
 
 class NetworkConfig {
 
-    val BASE_URL = BuildConfig.BASE_URL
+    private val BASE_URL = BuildConfig.BASE_URL
 
-    fun getInterceptor(): OkHttpClient {
+    private fun getInterceptor(): OkHttpClient {
 
         val httpLoggingInterceptor = HttpLoggingInterceptor()
         httpLoggingInterceptor.level = HttpLoggingInterceptor.Level.BODY
 
-        var okhttp = OkHttpClient.Builder().addInterceptor(httpLoggingInterceptor)
+        return OkHttpClient.Builder().addInterceptor(httpLoggingInterceptor)
             .connectTimeout(30, TimeUnit.SECONDS)
             .writeTimeout(30, TimeUnit.SECONDS)
             .retryOnConnectionFailure(true)
             .build()
-
-        return okhttp
     }
 
-    fun getNetwork(): Retrofit {
+    private fun getNetwork(): Retrofit {
         return Retrofit.Builder()
             .baseUrl(BASE_URL)
             .client(getInterceptor())

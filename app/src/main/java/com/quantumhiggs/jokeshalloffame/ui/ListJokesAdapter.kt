@@ -9,7 +9,8 @@ import com.quantumhiggs.jokeshalloffame.R
 import com.quantumhiggs.jokeshalloffame.model.Value
 import kotlinx.android.synthetic.main.item_list_joke.view.*
 
-class ListJokesAdapter(val jokes: List<Value>, val upClickListener: (Value) -> Unit) : RecyclerView.Adapter<ListJokesAdapter.ViewHolder>() {
+class ListJokesAdapter(private val jokes: List<Value>, private val upClickListener: (Value) -> Unit) :
+    RecyclerView.Adapter<ListJokesAdapter.ViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder =
         ViewHolder(LayoutInflater.from(parent.context).inflate(R.layout.item_list_joke, parent, false))
@@ -22,8 +23,7 @@ class ListJokesAdapter(val jokes: List<Value>, val upClickListener: (Value) -> U
 
     class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
 
-        fun bindItems(joke: Value, position: Int, upClickListener : (Value) -> Unit) {
-//            itemView.item_list_joke_number.text = position.toString()
+        fun bindItems(joke: Value, position: Int, upClickListener: (Value) -> Unit) {
             itemView.item_list_joke_number.text = joke.vote.toString()
             itemView.item_list_joke_value.text = joke.joke
 

@@ -2,7 +2,7 @@ package com.quantumhiggs.jokeshalloffame.model
 
 data class Jokes(
     val type: String,
-    val value: List<Value>
+    var value: List<Value>
 )
 
 data class Value(
@@ -10,5 +10,5 @@ data class Value(
     val id: Int,
     var joke: String,
     var vote: Int = 0,
-    var pos : Int = 0
+    var pos: Int = 0
 )
